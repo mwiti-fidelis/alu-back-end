@@ -3,6 +3,9 @@ import requests
 import sys
 
 if __name__ == "__main__": 
+    '''
+        Accessing the data resourse from the api using requests module
+    '''
     BASE_URL = 'https://jsonplaceholder.typicode.com'
     employee_id = sys.argv[1]
     employee = requests.get(
@@ -16,7 +19,7 @@ if __name__ == "__main__":
         todo_list_length = len(todo_list)
 
     completed_todo = len([key for key, value in todo_list.items() if value is True])
-
+# saving the employee details in a csv file
     with open(str(employee_id) + ".csv", "w") as userfile:
         [
             userfile.write(

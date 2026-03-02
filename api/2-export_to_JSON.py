@@ -4,6 +4,9 @@ import sys
 import json
 
 if __name__ == "__main__": 
+    '''
+        Accessing the data resourse from the api using requests module
+    '''
     BASE_URL = 'https://jsonplaceholder.typicode.com'
     employee_id = sys.argv[1]
     employee = requests.get(
@@ -18,7 +21,7 @@ if __name__ == "__main__":
             "completed": todo.get("completed"),
             "username": employee_name
         })
-
+# saving the data in .json file
     userdata = {employee_id: todo_list}
     with open(str(employee_id) + ".json", "w") as userfile:
         json.dump(userdata, userfile, indent=4)
