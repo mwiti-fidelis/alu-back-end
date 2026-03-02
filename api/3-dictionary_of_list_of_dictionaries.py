@@ -3,9 +3,11 @@ import requests
 import json
 import sys
 
-'''
-    Accessing the data resourse from the api using requests module
-'''
+"""
+    Module to gather data from an API.
+    This script accesses employee data and their TODO list from
+    the JSONPlaceholder API and displays completed tasks.
+"""
 # Creating a function to get the employees ids from the users object
 def get_employees_ids():
     base_url = 'https://jsonplaceholder.typicode.com/users'
@@ -37,5 +39,3 @@ if __name__ == "__main__":
         for id in all_employee_ids:
             employees_tasks[str(id)] = get_employee_tasks(id)
             employees_file.write(json.dumps(employees_tasks, indent=4))
-
-    

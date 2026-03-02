@@ -3,9 +3,11 @@ import requests
 import sys
 
 if __name__ == "__main__": 
-    '''
-        Accessing the data resourse from the api using requests module
-    '''
+    """
+        Module to gather data from an API.
+        This script accesses employee data and their TODO list from
+        the JSONPlaceholder API and displays completed tasks.
+    """
     BASE_URL = 'https://jsonplaceholder.typicode.com'
     employee = requests.get(
         BASE_URL + f'/users/{sys.argv[1]}/').json()
