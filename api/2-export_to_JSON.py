@@ -1,19 +1,20 @@
 #!/usr/bin/python3
-"""
-    Module to gather data from an API.
-"""
+"""Module to gather data from an API."""
+
+import json
 import requests
 import sys
-import json
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     BASE_URL = 'https://jsonplaceholder.typicode.com'
     employee_id = sys.argv[1]
     employee = requests.get(
-        BASE_URL + f'/users/{employee_id}/').json()
+        BASE_URL + '/users/{}/'.format(employee_id)
+    ).json()
     employee_name = employee.get("username")
     todos = requests.get(
-        BASE_URL + f'/users/{employee_id}/todos').json()
+        BASE_URL + '/users/{}/todos'.format(employee_id)
+    ).json()
     todo_list = []
     for todo in todos:
         todo_list.append({
@@ -24,4 +25,5 @@ if __name__ == "__main__":
     userdata = {employee_id: todo_list}
     with open(str(employee_id) + ".json", "w") as userfile:
         json.dump(userdata, userfile, indent=4)
-    print(f"Tasks fo employee {employee_id} exported to {employee_id}.json") 
+    print("Tasks for employee {} exported to {}.json".format(
+        employee_id, employee_id))
