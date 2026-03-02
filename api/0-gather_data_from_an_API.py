@@ -19,7 +19,7 @@ if __name__ == "__main__":
     todo_list_length = len(todo_list)
     completed_todo = len([key for key, value in todo_list.items()
                          if value is True])
-    print("Employee {} is done with tasks ({}/{}):".format(
+    print("Employee {} is done with tasks({}/{}):".format(
         employee_name, completed_todo, todo_list_length))
     for key, val in todo_list.items():
         if val is True:
