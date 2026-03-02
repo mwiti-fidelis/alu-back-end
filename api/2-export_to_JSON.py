@@ -25,5 +25,3 @@ if __name__ == "__main__":
     userdata = {employee_id: todo_list}
     with open(str(employee_id) + ".json", "w") as userfile:
         json.dump(userdata, userfile, indent=4)
-    print("Tasks for employee {} exported to {}.json".format(
-        employee_id, employee_id))

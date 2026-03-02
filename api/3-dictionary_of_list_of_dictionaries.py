@@ -18,7 +18,7 @@ def get_employee_tasks(employee_id):
     base_url = 'https://jsonplaceholder.typicode.com'
     user_info = requests.get(f"{base_url}/users/{employee_id}").json()
     employee_name = user_info["username"]
-    
+
     todos = requests.get(f"{base_url}/users/{employee_id}/todos").json()
     return [
         {
@@ -35,8 +35,6 @@ if __name__ == "__main__":
     employees_tasks = {}
     for emp_id in all_employee_ids:
         employees_tasks[str(emp_id)] = get_employee_tasks(emp_id)
-    
+
     with open("todo_all_employees.json", "w") as employees_file:
         json.dump(employees_tasks, employees_file, indent=4)
-
-        

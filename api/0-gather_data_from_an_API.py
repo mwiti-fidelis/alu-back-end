@@ -9,7 +9,7 @@ if __name__ == "__main__":
     employee = requests.get(
         BASE_URL + '/users/{}/'.format(sys.argv[1])
     ).json()
-    employee_name = employee.get("username")
+    employee_name = employee.get("name")
     todos = requests.get(
         BASE_URL + '/users/{}/todos'.format(sys.argv[1])
     ).json()
