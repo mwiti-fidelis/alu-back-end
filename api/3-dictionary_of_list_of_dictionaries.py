@@ -1,13 +1,13 @@
 #!/usr/bin/python3
-import requests
-import json
-import sys
-
 """
     Module to gather data from an API.
     This script accesses employee data and their TODO list from
     the JSONPlaceholder API and displays completed tasks.
 """
+import requests
+import json
+import sys
+
 # Creating a function to get the employees ids from the users object
 def get_employees_ids():
     base_url = 'https://jsonplaceholder.typicode.com/users'

@@ -1,14 +1,14 @@
 #!/usr/bin/python3
+"""
+    Module to gather data from an API.
+    This script accesses employee data and their TODO list from
+    the JSONPlaceholder API and displays completed tasks.
+"""
 import requests
 import sys
 import json
 
 if __name__ == "__main__": 
-    """
-        Module to gather data from an API.
-        This script accesses employee data and their TODO list from
-        the JSONPlaceholder API and displays completed tasks.
-    """
     BASE_URL = 'https://jsonplaceholder.typicode.com'
     employee_id = sys.argv[1]
     employee = requests.get(
