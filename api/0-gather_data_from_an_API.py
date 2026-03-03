@@ -1,8 +1,18 @@
 #!/usr/bin/python3
-"""Module to gather data from an API."""
+"""
+0-gather_data_from_an_API.py
 
+Fetches and displays TODO list progress for a given employee ID from
+JSONPlaceholder (https://jsonplaceholder.typicode.com).
+
+Requirements:
+- Uses requests
+- Takes an integer employee ID as argument
+- Prints in the exact specified format
+"""
 import requests
 import sys
+
 
 def main():
     if len(sys.argv) != 2:
@@ -17,14 +27,18 @@ def main():
 
     base = "https://jsonplaceholder.typicode.com"
 
-    user = requests.get(f"{base}/users/{employee_id}").json()
-    if user.status_code != 200:
+    # Fetch user info
+    user_resp = requests.get(f"{base}/users/{employee_id}")
+    if user_resp.status_code != 200:
         sys.exit(1)
+    user = user_resp.json()
     employee_name = user.get("name")
 
-    todos = requests.get(f"{base}/todos", params={"userId": employee_id}).json()
-    if todos.status_code != 200:
+    # Fetch todos for the employee
+    todos_resp = requests.get(f"{base}/todos", params={"userId": employee_id})
+    if todos_resp.status_code != 200:
         sys.exit(1)
+    todos = todos_resp.json()
 
     completed = [t for t in todos if t.get("completed") is True]
 
