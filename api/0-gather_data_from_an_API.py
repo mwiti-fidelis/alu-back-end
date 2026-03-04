@@ -1,57 +1,23 @@
 #!/usr/bin/python3
 """
-0-gather_data_from_an_API.py
-
-Fetches and displays TODO list progress for a given employee ID from
-JSONPlaceholder (https://jsonplaceholder.typicode.com).
-
-Requirements:
-- Uses requests
-- Takes an integer employee ID as argument
-- Prints in the exact specified format
+Queries a REST API for a given employee ID 
+and returns TODO list progress.
 """
 import requests
 import sys
 
 
-def main():
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} EMPLOYEE_ID", file=sys.stderr)
-        sys.exit(1)
+if __name__ == "__main__":
+    url = "https://jsonplaceholder.typicode.com/"
+    employee_id = sys.argv[1]
+    user = requests.get(url + "users/{}".format(employee_id)).json()
+    todos = requests.get(url + "todos", params={"userId": employee_id}).json()
 
-    try:
-        employee_id = int(sys.argv[1])
-    except ValueError:
-        print("EMPLOYEE_ID must be an integer", file=sys.stderr)
-        sys.exit(1)
-
-    base = "https://jsonplaceholder.typicode.com"
-
-    # Fetch user info
-    user_resp = requests.get(f"{base}/users/{employee_id}")
-    if user_resp.status_code != 200:
-        sys.exit(1)
-    user = user_resp.json()
-    employee_name = user.get("name")
-
-    # Fetch todos for the employee
-    todos_resp = requests.get(f"{base}/todos", params={"userId": employee_id})
-    if todos_resp.status_code != 200:
-        sys.exit(1)
-    todos = todos_resp.json()
-
-    completed = [t for t in todos if t.get("completed") is True]
-
-    header = (
-        f"Employee {employee_name} is done with tasks"
-        f"({len(completed)}/{len(todos)}):"
-    )
-    print(header)
+    completed = [t.get("title") for t in todos if t.get("completed") is True]
+    
+    # EXACT FORMAT: Employee NAME is done with tasks(DONE/TOTAL):
+    print("Employee {} is done with tasks({}/{}):".format(
+        user.get("name"), len(completed), len(todos)))
 
     for task in completed:
-        title = task.get("title")
-        print("\t {}".format(title))
-
-
-if __name__ == "__main__":
-    main()
+        print("\t {}".format(task))
