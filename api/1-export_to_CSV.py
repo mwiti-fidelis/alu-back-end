@@ -1,24 +1,28 @@
 #!/usr/bin/python3
-"""Module to gather data from an API."""
-
+"""
+Exports TODO list information for a given employee ID to CSV format.
+"""
 import requests
 import sys
 
+
 if __name__ == "__main__":
-    BASE_URL = 'https://jsonplaceholder.typicode.com'
-    employee_id = sys.argv[1]
-    employee = requests.get(
-        BASE_URL + '/users/{}/'.format(employee_id)
-    ).json()
-    employee_name = employee.get("username")
-    todos = requests.get(
-        BASE_URL + '/users/{}/todos'.format(employee_id)
-    ).json()
-    with open(str(employee_id) + ".csv", "w") as userfile:
-        for todo in todos:
-            userfile.write(
-                '"' + str(employee_id) + '",' +
-                '"' + employee_name + '",' +
-                '"' + str(todo["completed"]) + '",' +
-                '"' + todo["title"] + '"\n'
-            )
+    user_id = sys.argv[1]
+    url = "https://jsonplaceholder.typicode.com/"
+    
+    # Get user information to get the USERNAME
+    user = requests.get(url + "users/{}".format(user_id)).json()
+    username = user.get("username")
+
+    # Get all tasks for this user
+    todos = requests.get(url + "todos", params={"userId": user_id}).json()
+
+    # Write to CSV file: USER_ID.csv
+    with open("{}.csv".format(user_id), "w") as csvfile:
+        for task in todos:
+            csvfile.write('"{}","{}","{}","{}"\n'.format(
+                user_id,
+                username,
+                task.get("completed"),
+                task.get("title")
+            ))
