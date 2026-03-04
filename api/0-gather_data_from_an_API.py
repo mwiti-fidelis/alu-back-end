@@ -1,16 +1,29 @@
 #!/usr/bin/python3
-"""Returns to-do list information for a given employee ID."""
+"""
+Queries a REST API for a given employee ID and returns TODO list progress.
+"""
 import requests
 import sys
 
 
 if __name__ == "__main__":
     url = "https://jsonplaceholder.typicode.com/"
-    user = requests.get(url + "users/{}".format(sys.argv[1])).json()
-    todos = requests.get(url + "todos", params={"userId": sys.argv[1]}).json()
+    employee_id = sys.argv[1]
 
+    # Fetch user data
+    user = requests.get(url + "users/{}".format(employee_id)).json()
+    name = user.get("name")
+
+    # Fetch todo data
+    todos = requests.get(url + "todos", params={"userId": employee_id}).json()
+
+    # Filter completed tasks
     completed = [t.get("title") for t in todos if t.get("completed") is True]
+
+    # Print the header exactly as required (No space before parenthesis)
     print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(completed), len(todos)))
+        name, len(completed), len(todos)))
+
+    # Print tasks with tab and space
     for task in completed:
         print("\t {}".format(task))
