@@ -1,33 +1,16 @@
 #!/usr/bin/python3
-"""
-Fetches and displays TODO list progress for a given employee ID.
-"""
+"""Returns to-do list information for a given employee ID."""
 import requests
 import sys
 
 
 if __name__ == "__main__":
-    # Ensure the script only runs when not imported
     url = "https://jsonplaceholder.typicode.com/"
+    user = requests.get(url + "users/{}".format(sys.argv[1])).json()
+    todos = requests.get(url + "todos", params={"userId": sys.argv[1]}).json()
 
-    # Get user information
-    user_id = sys.argv[1]
-    user = requests.get(url + "users/{}".format(user_id)).json()
-
-    # Get TODO list information
-    params = {"userId": user_id}
-    todos = requests.get(url + "todos", params=params).json()
-
-    # Filter completed tasks
-    completed = []
-    for task in todos:
-        if task.get("completed") is True:
-            completed.append(task.get("title"))
-
-    # Print first line in exact specified format
+    completed = [t.get("title") for t in todos if t.get("completed") is True]
     print("Employee {} is done with tasks({}/{}):".format(
         user.get("name"), len(completed), len(todos)))
-
-    # Print completed tasks with 1 tabulation and 1 space
-    for title in completed:
-        print("\t {}".format(title))
+    for task in completed:
+        print("\t {}".format(task))
