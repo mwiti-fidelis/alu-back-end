@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """
 Exports all employees' TODO list data to a single JSON file.
-Structure: { "USER_ID": [ {"username": "...", "task": "...", "completed": ...}, ... ] }
+Structure: { "USER_ID":
+ [ {"username": "...", "task": "...", "completed": ...}, ... ] }
 """
 import json
 import requests

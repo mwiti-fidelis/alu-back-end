@@ -8,17 +8,24 @@ import sys
 
 
 if __name__ == "__main__":
+    # The URL base for JSONPlaceholder
     url = "https://jsonplaceholder.typicode.com/"
     user_id = sys.argv[1]
 
-    user = requests.get(url + "users/{}".format(user_id)).json()
-    username = user.get("username")
+    # Fetch User Info to get the 'username' (e.g., Bret)
+    user_res = requests.get(url + "users/{}".format(user_id))
+    user_data = user_res.json()
+    username = user_data.get("username")
 
-    todos = requests.get(url + "todos", params={"userId": user_id}).json()
+    todos_res = requests.get(url + "todos", params={"userId": user_id})
+    todos = todos_res.json()
 
-    with open("{}.csv".format(user_id), "w") as csvfile:
-        for t in todos:
-            # Manual formatting ensures double quotes around every field
+    file_name = "{}.csv".format(user_id)
+    with open(file_name, "w") as csvfile:
+        for task in todos:
             csvfile.write('"{}","{}","{}","{}"\n'.format(
-                user_id, username, t.get("completed"), t.get("title")))
-            
+                user_id,
+                username,
+                task.get("completed"),
+                task.get("title")
+            ))
